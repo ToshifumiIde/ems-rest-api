@@ -1,6 +1,8 @@
 package net.javaguides.springboot.controller;
 
+import lombok.RequiredArgsConstructor;
 import net.javaguides.springboot.bean.Student;
+import net.javaguides.springboot.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,13 +20,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("students")
+@RequiredArgsConstructor
 public class StudentController {
 
+  private final StudentService studentService;
 
   @GetMapping("student")
   public ResponseEntity<Student> getStudent() {
-    Student student = new Student(1, "Ramesh", "Fadatare");
-    //  return new ResponseEntity<>(student , HttpStatus.OK);
+    Student student = studentService.getStudent();
     return ResponseEntity
       .ok()
       .header("CustomHeader", "Custom Value")
