@@ -1,6 +1,6 @@
 services:
-  api-web:
-    container_name: api-web
+  api-web-for-react:
+    container_name: api-web-for-react
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
@@ -8,13 +8,13 @@ services:
       - 4000:8080
       - 5005:5005
     depends_on:
-      - api-db
+      - api-db-for-react
     networks:
       - jr_backend
     volumes:
       - ../:/app
-  api-db:
-    container_name: api-db
+  api-db-for-react:
+    container_name: api-db-for-react
     platform: linux/amd64
     image: mysql:8.4.2
     environment:
