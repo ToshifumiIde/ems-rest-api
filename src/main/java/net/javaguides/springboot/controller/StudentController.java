@@ -1,7 +1,7 @@
 package net.javaguides.springboot.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.javaguides.springboot.bean.Student;
+import net.javaguides.springboot.entity.Student;
 import net.javaguides.springboot.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
