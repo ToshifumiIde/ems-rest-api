@@ -1,7 +1,7 @@
 package net.javaguides.springboot.service;
 
 import lombok.RequiredArgsConstructor;
-import net.javaguides.springboot.bean.Student;
+import net.javaguides.springboot.entity.Student;
 import net.javaguides.springboot.exception.BusinessException;
 import net.javaguides.springboot.repository.StudentRepository;
 import org.springframework.http.HttpStatus;

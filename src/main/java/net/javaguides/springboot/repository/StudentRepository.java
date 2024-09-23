@@ -1,6 +1,6 @@
 package net.javaguides.springboot.repository;
 
-import net.javaguides.springboot.bean.Student;
+import net.javaguides.springboot.entity.Student;
 import org.springframework.stereotype.Repository;
 
 @Repository
