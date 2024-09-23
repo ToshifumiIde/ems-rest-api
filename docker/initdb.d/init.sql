@@ -8,3 +8,12 @@ INSERT INTO student(first_name , last_name) VALUES
 ('Ramesh' , 'Fadatare'),
 ('Umesh' , 'Fadatare'),
 ('John' , 'Doe');
+
+
+CREATE TABLE IF NOT EXISTS employee(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uuid VARCHAR(32) NOT NULL UNIQUE KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL
+);
