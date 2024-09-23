@@ -4,8 +4,8 @@
     <select id="getById" resultType="net.javaguides.springboot.entity.Employee">
         SELECT * FROM employee WHERE id = {id};
     </select>
-    <select id="getByUuid" resultType="net.javaguides.springboot.entity.Employee">
-        SELECT * FROM employee WHERE uuid = {uuid};
+    <select id="getEmployeeByUuid" resultType="net.javaguides.springboot.entity.Employee">
+        SELECT * FROM employee WHERE uuid = #{uuid};
     </select>
     <insert id="createEmployee" useGeneratedKeys="true" >
         INSERT INTO employee (uuid , first_name , last_name , email) VALUES (
