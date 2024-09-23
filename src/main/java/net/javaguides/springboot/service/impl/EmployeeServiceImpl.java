@@ -1,9 +1,10 @@
 package net.javaguides.springboot.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import net.javaguides.springboot.entity.Employee;
 import net.javaguides.springboot.converter.EmployeeConverter;
+import net.javaguides.springboot.dto.EmployeeReadDto;
 import net.javaguides.springboot.dto.EmployeeRegistrationDto;
+import net.javaguides.springboot.entity.Employee;
 import net.javaguides.springboot.exception.BusinessException;
 import net.javaguides.springboot.repository.EmployeeRepository;
 import net.javaguides.springboot.service.EmployeeService;
@@ -20,13 +21,39 @@ public class EmployeeServiceImpl implements EmployeeService {
   private final EmployeeRepository employeeRepository;
   private final EmployeeConverter employeeConverter;
 
+  /**
+   * 従業員登録用DTOを用いて従業員を登録する
+   *
+   * @param employeeRegistrationDto 従業員登録用DTO
+   * @return void
+   * @throws BusinessException 登録失敗時の例外処理
+   */
   @Override
   @Transactional
   public void createEmployee(EmployeeRegistrationDto employeeRegistrationDto) {
     Employee converted = employeeConverter.toRegistrationEntity(employeeRegistrationDto);
     int result = employeeRepository.createEmployee(converted);
-    if(!Objects.equals(result , 1)){
-      throw new BusinessException(HttpStatus.BAD_REQUEST.value() , "CREATE FAILED" ,"failed to generate resource");
+    if (!Objects.equals(result, 1)) {
+      throw new BusinessException(HttpStatus.BAD_REQUEST.value(), "CREATE FAILED", "failed to generate resource");
     }
+  }
+
+
+  /**
+   * UUIDを指定して従業員を取得する
+   *
+   * @param uuid 従業員UUID
+   * @return EmployeeReadDto 従業員DTO
+   * @throws BusinessException 指定したUUIDの従業員が見つからない場合の例外処理
+   */
+  @Override
+  @Transactional
+  public EmployeeReadDto getEmployeeByUuid(String uuid) {
+    Employee employee = employeeRepository.getEmployeeByUuid(uuid);
+    if (Objects.isNull(employee)) {
+      throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND", "failed to get resource");
+    }
+    EmployeeReadDto dto = employeeConverter.toDto(employee);
+    return dto;
   }
 }
