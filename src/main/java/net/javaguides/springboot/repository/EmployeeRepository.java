@@ -11,7 +11,7 @@ public interface EmployeeRepository {
    * 従業員をDBに保存する
    *
    * @param employee 従業員エンティティ
-   * @return int 保存成功時1、
+   * @return int 保存成功時1、失敗時0
    */
   int createEmployee(Employee employee);
 
@@ -23,5 +23,19 @@ public interface EmployeeRepository {
    */
   Employee getEmployeeByUuid(String uuid);
 
+  /**
+   * 従業員を全件取得する
+   *
+   * @return List<Employee> 従業員エンティティ
+   */
   List<Employee> getAllEmployees();
+
+  /**
+   * UUIDを指定してDBの従業員を更新する
+   *
+   * @param uuid     従業員UUID
+   * @param employee 従業員エンティティ
+   * @return int 保存成功時1、失敗時0
+   */
+  int updateEmployeeByUuid(String uuid, Employee employee);
 }
