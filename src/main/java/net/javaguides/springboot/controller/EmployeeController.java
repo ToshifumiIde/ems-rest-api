@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/employees")
@@ -43,5 +45,14 @@ public class EmployeeController {
   public ResponseEntity<EmployeeReadDto> getByUuid(@PathVariable("uuid") String uuid) {
     EmployeeReadDto employeeReadDto = employeeService.getEmployeeByUuid(uuid);
     return ResponseEntity.ok().body(employeeReadDto);
+  }
+
+  /**
+   * 全てのEmployeeを取得するREST API
+   * */
+  @GetMapping
+  public ResponseEntity<List<EmployeeReadDto>> getAll(){
+    List<EmployeeReadDto> allEmployeeDtos = employeeService.getAllEmployees();
+    return new ResponseEntity<>(allEmployeeDtos,HttpStatus.OK);
   }
 }

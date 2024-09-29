@@ -3,6 +3,8 @@ package net.javaguides.springboot.repository;
 import net.javaguides.springboot.entity.Employee;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface EmployeeRepository {
   /**
@@ -20,4 +22,6 @@ public interface EmployeeRepository {
    * @retun Employee 従業員エンティティ
    */
   Employee getEmployeeByUuid(String uuid);
+
+  List<Employee> getAllEmployees();
 }
