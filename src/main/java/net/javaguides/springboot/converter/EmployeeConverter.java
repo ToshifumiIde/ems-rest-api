@@ -11,7 +11,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmployeeConverter {
 
-  public EmployeeReadDto toDto(Employee employee) {
+  /**
+   * 従業員エンティティから従業員読み取りDTOに変換する
+   *
+   * @param employee 従業員エンティティ
+   * @return EmployeeReadDto 従業員読み取りDTO
+   */
+  public EmployeeReadDto toReadDto(Employee employee) {
     return new EmployeeReadDto(
       employee.getUuid(),
       employee.getFirstName(),
@@ -20,6 +26,12 @@ public class EmployeeConverter {
     );
   }
 
+  /**
+   * 登録用DTOからEntityに変換する
+   *
+   * @param employeeRegistrationDto 従業員編集用DTO
+   * @return Employee 従業員のエンティティ
+   */
   public Employee toRegistrationEntity(EmployeeRegistrationDto employeeRegistrationDto) {
     return new Employee(
       UuidGenerate.generate(),
@@ -29,6 +41,12 @@ public class EmployeeConverter {
     );
   }
 
+  /**
+   * 編集用DTOからEntityに変換する
+   *
+   * @param employeeUpdateDto 従業員編集用DTO
+   * @return Employee 従業員のエンティティ
+   */
   public Employee toEditEntity(EmployeeUpdateDto employeeUpdateDto) {
     return new Employee(
       employeeUpdateDto.getFirstName(),
