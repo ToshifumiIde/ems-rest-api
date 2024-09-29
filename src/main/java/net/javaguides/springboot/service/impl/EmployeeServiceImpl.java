@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @throws BusinessException 指定したUUIDの従業員が見つからない場合の例外処理
    */
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public EmployeeReadDto getEmployeeByUuid(String uuid) {
     Employee employee = employeeRepository.getEmployeeByUuid(uuid);
     if (Objects.isNull(employee)) {
@@ -55,5 +57,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
     EmployeeReadDto dto = employeeConverter.toDto(employee);
     return dto;
+  }
+
+  /**
+   * 従業員を全件取得する
+   *
+   * @return List<EmployeeReadDto> 全従業員Dto
+   *
+   * */
+  @Override
+  @Transactional(readOnly = true)
+  public List<EmployeeReadDto> getAllEmployees() {
+    List<Employee> allEmployees = employeeRepository.getAllEmployees();
+    List<EmployeeReadDto> allEmployeeDtos = allEmployees.stream().map(employee -> {
+      return employeeConverter.toDto(employee);
+    }).collect(Collectors.toList());
+    return allEmployeeDtos;
   }
 }
