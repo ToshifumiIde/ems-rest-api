@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.javaguides.springboot.converter.EmployeeConverter;
 import net.javaguides.springboot.dto.EmployeeReadDto;
 import net.javaguides.springboot.dto.EmployeeRegistrationDto;
+import net.javaguides.springboot.dto.EmployeeUpdateDto;
 import net.javaguides.springboot.entity.Employee;
 import net.javaguides.springboot.exception.BusinessException;
 import net.javaguides.springboot.repository.EmployeeRepository;
@@ -63,15 +64,36 @@ public class EmployeeServiceImpl implements EmployeeService {
    * 従業員を全件取得する
    *
    * @return List<EmployeeReadDto> 全従業員Dto
-   *
-   * */
+   */
   @Override
   @Transactional(readOnly = true)
   public List<EmployeeReadDto> getAllEmployees() {
     List<Employee> allEmployees = employeeRepository.getAllEmployees();
-    List<EmployeeReadDto> allEmployeeDtos = allEmployees.stream().map(employee -> {
-      return employeeConverter.toDto(employee);
-    }).collect(Collectors.toList());
+    List<EmployeeReadDto> allEmployeeDtos = allEmployees.stream().map(employee -> employeeConverter.toDto(employee)).collect(Collectors.toList());
     return allEmployeeDtos;
+  }
+
+  /**
+   * UUIDを指定して従業員を更新する
+   *
+   * @param uuid              従業員UUID
+   * @param employeeUpdateDto 従業員更新用Dto
+   * @throws BusinessException 指定したUUIDの従業員が見つからなかった場合の404エラー
+   * @throws BusinessException 指定したUUIDの従業員が失敗した場合の400エラー
+   */
+  @Override
+  @Transactional
+  public void updateEmployeeByUuid(String uuid, EmployeeUpdateDto employeeUpdateDto) {
+    Employee targetEmployee = employeeRepository.getEmployeeByUuid(uuid);
+    if (Objects.isNull(targetEmployee)) {
+      throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND", "failed to get resource");
+    }
+    Employee updateEmployee = employeeConverter.toEditEntity(employeeUpdateDto);
+
+    int result = employeeRepository.updateEmployeeByUuid(uuid, updateEmployee);
+
+    if (!Objects.equals(result, 1)) {
+      throw new BusinessException(HttpStatus.BAD_REQUEST.value(), "UPDATED FAILED", "failed to update resource");
+    }
   }
 }

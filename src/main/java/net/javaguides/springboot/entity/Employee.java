@@ -18,8 +18,14 @@ public class Employee {
   private String lastName;
   private String email;
 
-  public Employee(String uuid , String firstName , String lastName , String email){
+  public Employee(String uuid, String firstName, String lastName, String email) {
     this.uuid = uuid;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+  }
+
+  public Employee(String firstName, String lastName, String email) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;

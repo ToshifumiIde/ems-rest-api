@@ -18,4 +18,12 @@
         #{email}
         );
     </insert>
+
+    <update id="updateEmployeeByUuid">
+        UPDATE employee SET
+        first_name = #{employee.firstName},
+        last_name = #{employee.lastName} ,
+        email = #{employee.email}
+        WHERE uuid = #{uuid}
+    </update>
 </mapper>

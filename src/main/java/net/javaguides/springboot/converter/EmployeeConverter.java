@@ -1,6 +1,7 @@
 package net.javaguides.springboot.converter;
 
 import net.javaguides.springboot.dto.EmployeeReadDto;
+import net.javaguides.springboot.dto.EmployeeUpdateDto;
 import net.javaguides.springboot.entity.Employee;
 import net.javaguides.springboot.dto.EmployeeRegistrationDto;
 import net.javaguides.springboot.util.UuidGenerate;
@@ -25,6 +26,14 @@ public class EmployeeConverter {
       employeeRegistrationDto.getFirstName(),
       employeeRegistrationDto.getLastName(),
       employeeRegistrationDto.getEmail()
+    );
+  }
+
+  public Employee toEditEntity(EmployeeUpdateDto employeeUpdateDto) {
+    return new Employee(
+      employeeUpdateDto.getFirstName(),
+      employeeUpdateDto.getLastName(),
+      employeeUpdateDto.getEmail()
     );
   }
 }
