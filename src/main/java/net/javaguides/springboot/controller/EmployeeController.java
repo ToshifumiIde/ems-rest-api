@@ -7,6 +7,7 @@ import net.javaguides.springboot.dto.EmployeeUpdateDto;
 import net.javaguides.springboot.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,6 +71,18 @@ public class EmployeeController {
   @PutMapping("{uuid}")
   public ResponseEntity<Void> updateByUuid(@PathVariable("uuid") String uuid, @RequestBody EmployeeUpdateDto employeeUpdateDto) {
     employeeService.updateEmployeeByUuid(uuid, employeeUpdateDto);
+    return ResponseEntity.ok().build();
+  }
+
+  /**
+   * 指定したUUIDの従業員を削除するREST API
+   *
+   * @param uuid 従業員UUID
+   * @return void
+   */
+  @DeleteMapping("{uuid}")
+  public ResponseEntity<Void> deleteByUuid(@PathVariable("uuid") String uuid) {
+    employeeService.deleteEmployeeByUuid(uuid);
     return ResponseEntity.ok().build();
   }
 }
