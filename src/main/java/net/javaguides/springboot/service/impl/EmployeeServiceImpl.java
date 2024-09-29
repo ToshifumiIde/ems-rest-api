@@ -56,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     if (Objects.isNull(employee)) {
       throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND", "failed to get resource");
     }
-    EmployeeReadDto dto = employeeConverter.toDto(employee);
+    EmployeeReadDto dto = employeeConverter.toReadDto(employee);
     return dto;
   }
 
@@ -69,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Transactional(readOnly = true)
   public List<EmployeeReadDto> getAllEmployees() {
     List<Employee> allEmployees = employeeRepository.getAllEmployees();
-    List<EmployeeReadDto> allEmployeeDtos = allEmployees.stream().map(employee -> employeeConverter.toDto(employee)).collect(Collectors.toList());
+    List<EmployeeReadDto> allEmployeeDtos = allEmployees.stream().map(employee -> employeeConverter.toReadDto(employee)).collect(Collectors.toList());
     return allEmployeeDtos;
   }
 
@@ -94,6 +94,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     if (!Objects.equals(result, 1)) {
       throw new BusinessException(HttpStatus.BAD_REQUEST.value(), "UPDATED FAILED", "failed to update resource");
+    }
+  }
+
+  /**
+   * UUIDを指定して従業員を削除する
+   *
+   * @param uuid 従業員UUID
+   * @throws BusinessException 指定したUUIDの従業員が見つからなかった場合の404エラー
+   * @throws BusinessException 指定したUUIDの従業員が失敗した場合の400エラー
+   */
+  @Override
+  public void deleteEmployeeByUuid(String uuid) {
+    Employee targetEmployee = employeeRepository.getEmployeeByUuid(uuid);
+    if (Objects.isNull(targetEmployee)) {
+      throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND", "failed to get resource");
+    }
+
+    int result = employeeRepository.deleteEmployeeByUuid(uuid);
+
+    if (!Objects.equals(result, 1)) {
+      throw new BusinessException(HttpStatus.BAD_REQUEST.value(), "DELETE FAILED", "failed to delete resource");
     }
   }
 }

@@ -38,4 +38,13 @@ public interface EmployeeRepository {
    * @return int 保存成功時1、失敗時0
    */
   int updateEmployeeByUuid(String uuid, Employee employee);
+
+
+  /**
+   * UUIDを指定してDBの従業員を削除する
+   *
+   * @param uuid 従業員UUID
+   * @return int 削除成功時1、失敗時0
+   */
+  int deleteEmployeeByUuid(String uuid);
 }
