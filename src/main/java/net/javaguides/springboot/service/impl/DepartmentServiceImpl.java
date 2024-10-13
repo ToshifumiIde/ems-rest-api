@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.javaguides.springboot.converter.DepartmentConverter;
 import net.javaguides.springboot.dto.DepartmentReadDto;
 import net.javaguides.springboot.dto.DepartmentRegistrationDto;
+import net.javaguides.springboot.dto.DepartmentUpdateDto;
 import net.javaguides.springboot.entity.Department;
 import net.javaguides.springboot.exception.BusinessException;
 import net.javaguides.springboot.repository.DepartmentRepository;
@@ -42,7 +43,7 @@ public class DepartmentServiceImpl implements DepartmentService {
   /**
    * 部署を全件取得する
    *
-   * @return List<DepartmentDto> 部署読み取り用Dtoのリスト
+   * @return List<DepartmentDto> 部署読み取り用DTOのリスト
    */
   @Override
   @Transactional(readOnly = true)
@@ -67,5 +68,29 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
     DepartmentReadDto dto = departmentConverter.toReadDto(department);
     return dto;
+  }
+
+  /**
+   * UUIDを指定して部署を更新する
+   *
+   * @param uuid                部署UUID
+   * @param departmentUpdateDto 部署更新用DTO
+   * @throws BusinessException 指定したUUIDの部署が見つからなかった場合の404エラー
+   * @throws BusinessException 指定したUUIDの部署の更新が失敗した場合の400エラー
+   */
+  @Override
+  @Transactional
+  public void updateDepartmentByUuid(String uuid, DepartmentUpdateDto departmentUpdateDto) {
+    Department targetDepartment = departmentRepository.getDepartmentByUuid(uuid);
+    if (Objects.isNull(targetDepartment)) {
+      throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND", "failed to get resource");
+    }
+    Department updateDepartment = departmentConverter.toEditEntity(departmentUpdateDto);
+
+    int result = departmentRepository.updateDepartmentByUuid(uuid, updateDepartment);
+
+    if (!Objects.equals(result, 1)) {
+      throw new BusinessException(HttpStatus.BAD_REQUEST.value(), "UPDATED FAILED", "failed to update resource");
+    }
   }
 }

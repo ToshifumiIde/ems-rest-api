@@ -2,18 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.javaguides.springboot.dao.EmployeeMapper">
     <select id="getAllEmployees">
-        SELECT id,uuid,first_name,last_name,email FROM employee;
+        SELECT
+        id,
+        uuid,
+        first_name,
+        last_name,
+        email
+        FROM employee;
     </select>
 
-    <select id="getById" resultType="net.javaguides.springboot.entity.Employee">
-        SELECT * FROM employee WHERE id = {id};
+    <select id="getById">
+        SELECT
+        id,
+        uuid,
+        first_name,
+        last_name,
+        email
+        FROM employee
+        WHERE id = #{id};
     </select>
 
-    <select id="getEmployeeByUuid" resultType="net.javaguides.springboot.entity.Employee">
-        SELECT * FROM employee WHERE uuid = #{uuid};
+    <select id="getEmployeeByUuid">
+        SELECT
+        uuid,
+        first_name,
+        last_name,
+        email
+        FROM employee
+        WHERE uuid = #{uuid};
     </select>
 
-    <insert id="createEmployee" useGeneratedKeys="true" >
+    <insert id="createEmployee" useGeneratedKeys="true">
         INSERT INTO employee (uuid , first_name , last_name , email) VALUES (
         #{uuid},
         #{firstName},
@@ -25,7 +44,7 @@
     <update id="updateEmployeeByUuid">
         UPDATE employee SET
         first_name = #{employee.firstName},
-        last_name = #{employee.lastName} ,
+        last_name = #{employee.lastName},
         email = #{employee.email}
         WHERE uuid = #{uuid};
     </update>

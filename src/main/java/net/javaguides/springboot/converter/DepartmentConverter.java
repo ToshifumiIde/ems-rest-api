@@ -2,6 +2,7 @@ package net.javaguides.springboot.converter;
 
 import net.javaguides.springboot.dto.DepartmentReadDto;
 import net.javaguides.springboot.dto.DepartmentRegistrationDto;
+import net.javaguides.springboot.dto.DepartmentUpdateDto;
 import net.javaguides.springboot.entity.Department;
 import net.javaguides.springboot.util.UuidGenerate;
 import org.springframework.stereotype.Component;
@@ -32,5 +33,15 @@ public class DepartmentConverter {
       dto.getName(),
       dto.getDescription()
     );
+  }
+
+  /**
+   * 編集用DTOからEntityに変換する
+   *
+   * @param dto 部署編集用DTO
+   * @return Department 部署のエンティティ
+   */
+  public Department toEditEntity(DepartmentUpdateDto dto) {
+    return new Department(dto.getName(), dto.getDescription());
   }
 }
