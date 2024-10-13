@@ -78,7 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param uuid              従業員UUID
    * @param employeeUpdateDto 従業員更新用Dto
    * @throws BusinessException 指定したUUIDの従業員が見つからなかった場合の404エラー
-   * @throws BusinessException 指定したUUIDの従業員が失敗した場合の400エラー
+   * @throws BusinessException 指定したUUIDの従業員の更新が失敗した場合の400エラー
    */
   @Override
   @Transactional
