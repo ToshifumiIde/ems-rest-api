@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -35,6 +36,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     if (!Objects.equals(result, 1)) {
       throw new BusinessException(HttpStatus.BAD_REQUEST.value(), "CREATE FAILED", "failed to generate resource");
     }
+  }
+
+  /**
+   * 部署を全件取得する
+   *
+   * @return List<DepartmentDto> 部署読み取り用Dtoのリスト
+   */
+  @Override
+  public List<DepartmentReadDto> getAllDepartments() {
+    List<Department> list = departmentRepository.getAllDepartments();
+    List<DepartmentReadDto> dtos = list.stream().map(entity -> {
+      return departmentConverter.toReadDto(entity);
+    }).toList();
+    return dtos;
   }
 
   /**
