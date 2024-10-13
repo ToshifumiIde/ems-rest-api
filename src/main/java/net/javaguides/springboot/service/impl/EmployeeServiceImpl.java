@@ -69,8 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Transactional(readOnly = true)
   public List<EmployeeReadDto> getAllEmployees() {
     List<Employee> allEmployees = employeeRepository.getAllEmployees();
-    List<EmployeeReadDto> allEmployeeDtos = allEmployees.stream().map(employee -> employeeConverter.toReadDto(employee)).collect(Collectors.toList());
-    return allEmployeeDtos;
+    return allEmployees.stream().map(employee -> employeeConverter.toReadDto(employee)).collect(Collectors.toList());
   }
 
   /**

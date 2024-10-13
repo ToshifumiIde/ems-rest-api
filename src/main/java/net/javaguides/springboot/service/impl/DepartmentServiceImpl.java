@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,11 +47,8 @@ public class DepartmentServiceImpl implements DepartmentService {
   @Override
   @Transactional(readOnly = true)
   public List<DepartmentReadDto> getAllDepartments() {
-    List<Department> list = departmentRepository.getAllDepartments();
-    List<DepartmentReadDto> dtos = list.stream().map(entity -> {
-      return departmentConverter.toReadDto(entity);
-    }).toList();
-    return dtos;
+    List<Department> allDepartments = departmentRepository.getAllDepartments();
+    return allDepartments.stream().map(department -> departmentConverter.toReadDto(department)).collect(Collectors.toList());
   }
 
   /**
