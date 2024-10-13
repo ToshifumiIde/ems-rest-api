@@ -27,7 +27,7 @@ services:
       - ./conf:/etc/mysql/conf.d
       - ./initdb.d:/docker-entrypoint-initdb.d
     ports:
-      - 3306:3306
+      - 4306:3306
     networks:
       - jr_backend
 
