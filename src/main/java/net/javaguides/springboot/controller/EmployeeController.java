@@ -41,7 +41,7 @@ public class EmployeeController {
   }
 
   /**
-   * UUIDを指定してEmployeeを取得するREST API
+   * UUIDを指定して従業員を取得する REST API
    *
    * @param uuid 従業員UUID
    * @return EmployeeReadDto 従業員DTO
@@ -53,9 +53,9 @@ public class EmployeeController {
   }
 
   /**
-   * 全てのEmployeeを取得するREST API
+   * 全ての従業員を取得する REST API
    *
-   * @return List<EmployeeDto> 従業員DTOの配列
+   * @return List<EmployeeDto> 従業員DTOのList
    */
   @GetMapping
   public ResponseEntity<List<EmployeeReadDto>> getAll() {
@@ -64,7 +64,7 @@ public class EmployeeController {
   }
 
   /**
-   * 指定したUUIDの従業員を更新するREST API
+   * 指定したUUIDの従業員を更新する REST API
    *
    * @param uuid              従業員UUID
    * @param employeeUpdateDto 従業員更新用DTO
@@ -77,7 +77,7 @@ public class EmployeeController {
   }
 
   /**
-   * 指定したUUIDの従業員を削除するREST API
+   * 指定したUUIDの従業員を削除する REST API
    *
    * @param uuid 従業員UUID
    * @return void
