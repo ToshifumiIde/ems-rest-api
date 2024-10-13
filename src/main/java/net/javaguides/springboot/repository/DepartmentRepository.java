@@ -35,6 +35,15 @@ public interface DepartmentRepository {
    *
    * @param uuid       部署UUID
    * @param department 部署エンティティ
+   * @return int 削除成功時1、失敗時0
    */
   int updateDepartmentByUuid(String uuid, Department department);
+
+  /**
+   * UUIDを指定してDBの部署を削除する
+   *
+   * @param uuid 部署UUID
+   * @return int 削除成功時1、失敗時0
+   * */
+  int deleteDepartmentByUuid(String uuid);
 }
