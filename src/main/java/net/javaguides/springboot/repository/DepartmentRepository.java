@@ -29,4 +29,12 @@ public interface DepartmentRepository {
    * @return Department 部署エンティティ
    */
   Department getDepartmentByUuid(String uuid);
+
+  /**
+   * UUIDを指定してDBの部署を更新する
+   *
+   * @param uuid       部署UUID
+   * @param department 部署エンティティ
+   */
+  int updateDepartmentByUuid(String uuid, Department department);
 }
