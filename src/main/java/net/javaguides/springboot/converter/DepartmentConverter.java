@@ -1,5 +1,6 @@
 package net.javaguides.springboot.converter;
 
+import net.javaguides.springboot.dto.DepartmentReadDto;
 import net.javaguides.springboot.dto.DepartmentRegistrationDto;
 import net.javaguides.springboot.entity.Department;
 import net.javaguides.springboot.util.UuidGenerate;
@@ -7,6 +8,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DepartmentConverter {
+
+  /**
+   * 部署エンティティから部署読み取りDTOに変換する
+   */
+  public DepartmentReadDto toReadDto(Department department) {
+    return new DepartmentReadDto(
+      department.getUuid(),
+      department.getName(),
+      department.getDescription()
+    );
+  }
+
   /**
    * 登録用DTOからEntityに変換する
    *
