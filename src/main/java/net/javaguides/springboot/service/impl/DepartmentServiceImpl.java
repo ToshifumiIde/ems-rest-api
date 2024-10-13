@@ -44,6 +44,7 @@ public class DepartmentServiceImpl implements DepartmentService {
    * @return List<DepartmentDto> 部署読み取り用Dtoのリスト
    */
   @Override
+  @Transactional(readOnly = true)
   public List<DepartmentReadDto> getAllDepartments() {
     List<Department> list = departmentRepository.getAllDepartments();
     List<DepartmentReadDto> dtos = list.stream().map(entity -> {
