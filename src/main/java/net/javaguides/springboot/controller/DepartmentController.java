@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @CrossOrigin("*")
 @RequestMapping("/api/departments")
@@ -36,7 +38,18 @@ public class DepartmentController {
   }
 
   /**
-   * UUIDを指定してDepartmentを取得するREST API
+   * 部署を全件取得する REST API
+   *
+   * @return List<DepartmentReadDto> 部署取得用DTOのList
+   */
+  @GetMapping
+  public ResponseEntity<List<DepartmentReadDto>> getAll() {
+    List<DepartmentReadDto> dtos = departmentService.getAllDepartments();
+    return new ResponseEntity<>(dtos, HttpStatus.OK);
+  }
+
+  /**
+   * UUIDを指定して部署を取得する REST API
    *
    * @param uuid 部署UUID
    * @return DepartmentReadDto 部署取得用DTO

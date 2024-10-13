@@ -8,14 +8,24 @@
         #{description}
         );
     </insert>
+
+    <select id="getAllDepartments">
+        SELECT
+        uuid,
+        name,
+        description
+        FROM
+        department
+    </select>
+
     <select id="getDepartmentByUuid">
         SELECT
-            uuid,
-            name,
-            description
+        uuid,
+        name,
+        description
         FROM
-            department
+        department
         WHERE
-            uuid = #{uuid}
+        uuid = #{uuid}
     </select>
 </mapper>
