@@ -8,6 +8,7 @@ import net.javaguides.springboot.service.DepartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,10 +65,26 @@ public class DepartmentController {
 
   /**
    * UUIDを指定して部署を更新する REST API
+   *
+   * @param uuid                部署UUID
+   * @param departmentUpdateDto 部署更新用DTO
+   * @return void
    */
   @PutMapping("{uuid}")
   public ResponseEntity<Void> updateByUuid(@PathVariable("uuid") String uuid, @RequestBody DepartmentUpdateDto departmentUpdateDto) {
     departmentService.updateDepartmentByUuid(uuid, departmentUpdateDto);
+    return ResponseEntity.ok().build();
+  }
+
+  /**
+   * UUIDを指定して部署を削除する REST API
+   *
+   * @param uuid 部署UUID
+   * @return void
+   */
+  @DeleteMapping("{uuid}")
+  public ResponseEntity<Void> deleteByUuid(@PathVariable("uuid") String uuid) {
+    departmentService.deleteDepartmentByUuid(uuid);
     return ResponseEntity.ok().build();
   }
 }
