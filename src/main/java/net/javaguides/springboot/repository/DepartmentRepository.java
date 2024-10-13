@@ -12,4 +12,12 @@ public interface DepartmentRepository {
    * @return int 保存成功時1、失敗時0
    */
   int createDepartment(Department department);
+
+  /**
+   * UUIDを指定してDBから部署を取得する
+   *
+   * @param uuid 部署UUID
+   * @return Department 部署エンティティ
+   */
+  Department getDepartmentByUuid(String uuid);
 }

@@ -8,4 +8,14 @@
         #{description}
         );
     </insert>
+    <select id="getDepartmentByUuid">
+        SELECT
+            uuid,
+            name,
+            description
+        FROM
+            department
+        WHERE
+            uuid = #{uuid}
+    </select>
 </mapper>
