@@ -14,4 +14,6 @@ public interface DepartmentService {
   DepartmentReadDto getDepartmentByUuid(String uuid);
 
   void updateDepartmentByUuid(String uuid, DepartmentUpdateDto departmentUpdateDto);
+
+  void deleteDepartmentByUuid(String uuid);
 }

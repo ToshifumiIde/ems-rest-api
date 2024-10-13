@@ -36,4 +36,10 @@
         WHERE
         uuid = #{uuid};
     </update>
+
+    <delete id="deleteDepartmentByUuid">
+        DELETE FROM department
+        WHERE
+        uuid = #{uuid}
+    </delete>
 </mapper>
