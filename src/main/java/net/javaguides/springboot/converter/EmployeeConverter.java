@@ -22,7 +22,8 @@ public class EmployeeConverter {
       employee.getUuid(),
       employee.getFirstName(),
       employee.getLastName(),
-      employee.getEmail()
+      employee.getEmail(),
+      employee.getDepartmentUuid()
     );
   }
 
@@ -32,12 +33,13 @@ public class EmployeeConverter {
    * @param employeeRegistrationDto 従業員編集用DTO
    * @return Employee 従業員のエンティティ
    */
-  public Employee toRegistrationEntity(EmployeeRegistrationDto employeeRegistrationDto) {
+  public Employee toRegistrationEntity(EmployeeRegistrationDto employeeRegistrationDto , int departmentId) {
     return new Employee(
       UuidGenerate.generate(),
       employeeRegistrationDto.getFirstName(),
       employeeRegistrationDto.getLastName(),
-      employeeRegistrationDto.getEmail()
+      employeeRegistrationDto.getEmail(),
+      departmentId
     );
   }
 
@@ -47,11 +49,12 @@ public class EmployeeConverter {
    * @param employeeUpdateDto 従業員編集用DTO
    * @return Employee 従業員のエンティティ
    */
-  public Employee toEditEntity(EmployeeUpdateDto employeeUpdateDto) {
+  public Employee toEditEntity(EmployeeUpdateDto employeeUpdateDto , int departmentId) {
     return new Employee(
       employeeUpdateDto.getFirstName(),
       employeeUpdateDto.getLastName(),
-      employeeUpdateDto.getEmail()
+      employeeUpdateDto.getEmail(),
+      departmentId
     );
   }
 }

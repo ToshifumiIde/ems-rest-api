@@ -15,11 +15,13 @@ public class EmployeeRegistrationDto {
   private String firstName;
   private String lastName;
   private String email;
+  private String departmentUuid;
 
-  public EmployeeRegistrationDto(String firstName, String lastName, String email) {
+  public EmployeeRegistrationDto(String firstName, String lastName, String email, String departmentUuid) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
+    this.departmentUuid = departmentUuid;
   }
 
   @NotNull
@@ -44,5 +46,13 @@ public class EmployeeRegistrationDto {
   @JsonProperty("email")
   public String getEmail() {
     return email;
+  }
+
+  @NotNull
+  @Size(min = 1, max = 255)
+  @Schema(name = "departmentUuid", example = "a123456789012345678901234567890z", description = "部署UUID", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("departmentUuid")
+  public String getDepartmentUuid() {
+    return departmentUuid;
   }
 }
