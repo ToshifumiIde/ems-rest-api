@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.javaguides.springboot.dao.EmployeeMapper">
-    <select id="getAllEmployees">
+    <select id="getAllEmployees" resultMap="EmployeeMap">
         SELECT
-        id,
-        uuid,
-        first_name,
-        last_name,
-        email
-        FROM employee;
+        employee.id,
+        employee.uuid,
+        employee.first_name,
+        employee.last_name,
+        employee.email,
+        department.uuid as department_uuid
+        FROM employee
+        INNER JOIN department ON employee.department_id = department.id
     </select>
 
     <select id="getById">
@@ -19,25 +21,28 @@
         last_name,
         email
         FROM employee
-        WHERE id = #{id};
+        WHERE id = #{id}
     </select>
 
-    <select id="getEmployeeByUuid">
+    <select id="getEmployeeByUuid" resultMap="EmployeeMap">
         SELECT
-        uuid,
-        first_name,
-        last_name,
-        email
+        employee.uuid,
+        employee.first_name,
+        employee.last_name,
+        employee.email,
+        department.uuid as department_uuid
         FROM employee
-        WHERE uuid = #{uuid};
+        INNER JOIN department ON employee.department_id = department.id
+        WHERE employee.uuid = #{uuid}
     </select>
 
     <insert id="createEmployee" useGeneratedKeys="true">
-        INSERT INTO employee (uuid , first_name , last_name , email) VALUES (
+        INSERT INTO employee (uuid , first_name , last_name , email , department_id) VALUES (
         #{uuid},
         #{firstName},
         #{lastName},
-        #{email}
+        #{email},
+        #{departmentId}
         );
     </insert>
 
@@ -45,11 +50,20 @@
         UPDATE employee SET
         first_name = #{employee.firstName},
         last_name = #{employee.lastName},
-        email = #{employee.email}
+        email = #{employee.email},
+        department_id = #{employee.departmentId}
         WHERE uuid = #{uuid};
     </update>
 
     <delete id="deleteEmployeeByUuid">
         DELETE FROM employee WHERE uuid = #{uuid};
     </delete>
+
+    <resultMap id="EmployeeMap" type="net.javaguides.springboot.entity.Employee">
+        <result property="uuid" column="uuid" />
+        <result property="firstName" column="first_name" />
+        <result property="lastName" column="last_name" />
+        <result property="email" column="email" />
+        <result property="departmentUuid" column="department_uuid" />
+    </resultMap>
 </mapper>
