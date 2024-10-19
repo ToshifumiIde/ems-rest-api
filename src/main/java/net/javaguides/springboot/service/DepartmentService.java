@@ -1,5 +1,6 @@
 package net.javaguides.springboot.service;
 
+import net.javaguides.springboot.dto.DepartmentListDto;
 import net.javaguides.springboot.dto.DepartmentReadDto;
 import net.javaguides.springboot.dto.DepartmentRegistrationDto;
 import net.javaguides.springboot.dto.DepartmentUpdateDto;
@@ -16,4 +17,6 @@ public interface DepartmentService {
   void updateDepartmentByUuid(String uuid, DepartmentUpdateDto departmentUpdateDto);
 
   void deleteDepartmentByUuid(String uuid);
+
+  List<DepartmentListDto> getDepartmentsList();
 }
