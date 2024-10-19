@@ -6,7 +6,7 @@
         #{uuid},
         #{name},
         #{description}
-        );
+        )
     </insert>
 
     <select id="getAllDepartments">
@@ -15,7 +15,7 @@
         name,
         description
         FROM
-        department;
+        department
     </select>
 
     <select id="getDepartmentByUuid">
@@ -27,7 +27,7 @@
         FROM
         department
         WHERE
-        uuid = #{uuid};
+        uuid = #{uuid}
     </select>
 
     <update id="updateDepartmentByUuid">
@@ -35,7 +35,7 @@
         name = #{department.name},
         description = #{department.description}
         WHERE
-        uuid = #{uuid};
+        uuid = #{uuid}
     </update>
 
     <delete id="deleteDepartmentByUuid">
@@ -43,4 +43,12 @@
         WHERE
         uuid = #{uuid}
     </delete>
+
+    <select id="getDepartmentsList">
+        SELECT
+        uuid,
+        name
+        FROM
+        department
+    </select>
 </mapper>
