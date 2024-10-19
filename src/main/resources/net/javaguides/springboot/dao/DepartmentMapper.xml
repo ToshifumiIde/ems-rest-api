@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.javaguides.springboot.dao.DepartmentMapper">
+    <insert id="createDepartment" useGeneratedKeys="true">
+        INSERT INTO department(uuid , name , description)VALUES(
+        #{uuid},
+        #{name},
+        #{description}
+        )
+    </insert>
+
+    <select id="getAllDepartments">
+        SELECT
+        uuid,
+        name,
+        description
+        FROM
+        department
+    </select>
+
+    <select id="getDepartmentByUuid">
+        SELECT
+        id,
+        uuid,
+        name,
+        description
+        FROM
+        department
+        WHERE
+        uuid = #{uuid}
+    </select>
+
+    <update id="updateDepartmentByUuid">
+        UPDATE department SET
+        name = #{department.name},
+        description = #{department.description}
+        WHERE
+        uuid = #{uuid}
+    </update>
+
+    <delete id="deleteDepartmentByUuid">
+        DELETE FROM department
+        WHERE
+        uuid = #{uuid}
+    </delete>
+
+    <select id="getDepartmentsList">
+        SELECT
+        uuid,
+        name
+        FROM
+        department
+    </select>
+</mapper>
