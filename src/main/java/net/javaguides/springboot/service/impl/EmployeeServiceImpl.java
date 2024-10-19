@@ -5,8 +5,10 @@ import net.javaguides.springboot.converter.EmployeeConverter;
 import net.javaguides.springboot.dto.EmployeeReadDto;
 import net.javaguides.springboot.dto.EmployeeRegistrationDto;
 import net.javaguides.springboot.dto.EmployeeUpdateDto;
+import net.javaguides.springboot.entity.Department;
 import net.javaguides.springboot.entity.Employee;
 import net.javaguides.springboot.exception.BusinessException;
+import net.javaguides.springboot.repository.DepartmentRepository;
 import net.javaguides.springboot.repository.EmployeeRepository;
 import net.javaguides.springboot.service.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
+  private final DepartmentRepository departmentRepository;
   private final EmployeeRepository employeeRepository;
   private final EmployeeConverter employeeConverter;
 
@@ -28,13 +31,18 @@ public class EmployeeServiceImpl implements EmployeeService {
    * 従業員登録用DTOを用いて従業員を登録する
    *
    * @param employeeRegistrationDto 従業員登録用DTO
-   * @return void
    * @throws BusinessException 登録失敗時の例外処理
    */
   @Override
   @Transactional
   public void createEmployee(EmployeeRegistrationDto employeeRegistrationDto) {
-    Employee converted = employeeConverter.toRegistrationEntity(employeeRegistrationDto);
+
+    Department department = departmentRepository.getDepartmentByUuid(employeeRegistrationDto.getDepartmentUuid());
+    if(Objects.isNull(department)){
+      throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND" , "resource not found");
+    }
+
+    Employee converted = employeeConverter.toRegistrationEntity(employeeRegistrationDto ,department.getId());
     int result = employeeRepository.createEmployee(converted);
     if (!Objects.equals(result, 1)) {
       throw new BusinessException(HttpStatus.BAD_REQUEST.value(), "CREATE FAILED", "failed to generate resource");
@@ -56,8 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     if (Objects.isNull(employee)) {
       throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND", "failed to get resource");
     }
-    EmployeeReadDto dto = employeeConverter.toReadDto(employee);
-    return dto;
+    return employeeConverter.toReadDto(employee);
   }
 
   /**
@@ -69,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Transactional(readOnly = true)
   public List<EmployeeReadDto> getAllEmployees() {
     List<Employee> allEmployees = employeeRepository.getAllEmployees();
-    return allEmployees.stream().map(employee -> employeeConverter.toReadDto(employee)).collect(Collectors.toList());
+    return allEmployees.stream().map(employeeConverter::toReadDto).collect(Collectors.toList());
   }
 
   /**
@@ -87,7 +94,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     if (Objects.isNull(targetEmployee)) {
       throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND", "failed to get resource");
     }
-    Employee updateEmployee = employeeConverter.toEditEntity(employeeUpdateDto);
+
+    Department department = departmentRepository.getDepartmentByUuid(employeeUpdateDto.getDepartmentUuid());
+    if (Objects.isNull(department)) {
+      throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND", "failed to get resource");
+    }
+
+    Employee updateEmployee = employeeConverter.toEditEntity(employeeUpdateDto , department.getId());
 
     int result = employeeRepository.updateEmployeeByUuid(uuid, updateEmployee);
 
