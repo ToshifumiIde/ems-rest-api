@@ -44,6 +44,13 @@ public interface DepartmentRepository {
    *
    * @param uuid 部署UUID
    * @return int 削除成功時1、失敗時0
-   * */
+   */
   int deleteDepartmentByUuid(String uuid);
+
+  /**
+   * 動的セレクトボックス用の部署の一覧を取得する
+   *
+   * @return List<Department> 部署のList
+   */
+  List<Department> getDepartmentsList();
 }
