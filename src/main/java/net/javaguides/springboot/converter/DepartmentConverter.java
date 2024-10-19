@@ -1,5 +1,6 @@
 package net.javaguides.springboot.converter;
 
+import net.javaguides.springboot.dto.DepartmentListDto;
 import net.javaguides.springboot.dto.DepartmentReadDto;
 import net.javaguides.springboot.dto.DepartmentRegistrationDto;
 import net.javaguides.springboot.dto.DepartmentUpdateDto;
@@ -43,5 +44,15 @@ public class DepartmentConverter {
    */
   public Department toEditEntity(DepartmentUpdateDto dto) {
     return new Department(dto.getName(), dto.getDescription());
+  }
+
+  /**
+   * Entityから動的セレクトボックス用のDtoに変換する
+   *
+   * @param department 部署のエンティティ
+   * @return DepartmentListDto 動的セレクトボックス用の部署DTO
+   */
+  public DepartmentListDto toDepartmentListDto(Department department) {
+    return new DepartmentListDto(department.getUuid(), department.getName());
   }
 }

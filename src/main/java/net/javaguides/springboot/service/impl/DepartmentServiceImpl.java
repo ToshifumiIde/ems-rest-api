@@ -2,6 +2,7 @@ package net.javaguides.springboot.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import net.javaguides.springboot.converter.DepartmentConverter;
+import net.javaguides.springboot.dto.DepartmentListDto;
 import net.javaguides.springboot.dto.DepartmentReadDto;
 import net.javaguides.springboot.dto.DepartmentRegistrationDto;
 import net.javaguides.springboot.dto.DepartmentUpdateDto;
@@ -49,7 +50,7 @@ public class DepartmentServiceImpl implements DepartmentService {
   @Transactional(readOnly = true)
   public List<DepartmentReadDto> getAllDepartments() {
     List<Department> allDepartments = departmentRepository.getAllDepartments();
-    return allDepartments.stream().map(department -> departmentConverter.toReadDto(department)).collect(Collectors.toList());
+    return allDepartments.stream().map(departmentConverter::toReadDto).collect(Collectors.toList());
   }
 
   /**
@@ -66,8 +67,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     if (Objects.isNull(department)) {
       throw new BusinessException(HttpStatus.NOT_FOUND.value(), "NOT FOUND", "failed to get resource");
     }
-    DepartmentReadDto dto = departmentConverter.toReadDto(department);
-    return dto;
+    return departmentConverter.toReadDto(department);
   }
 
   /**
@@ -114,5 +114,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     if (!Objects.equals(result, 1)) {
       throw new BusinessException(HttpStatus.BAD_REQUEST.value(), "DELETE FAILED", "failed to delete resource");
     }
+  }
+
+  /**
+   * 登録されている部署のUUIDと名前のListを返却する
+   *
+   * @return List<DepartmentListDto> セレクトボックス用の部署のDtoのList
+   * */
+  @Override
+  public List<DepartmentListDto> getDepartmentsList() {
+    List<Department> departmentsList = departmentRepository.getDepartmentsList();
+    return departmentsList.stream().map(departmentConverter::toDepartmentListDto).collect(Collectors.toList());
   }
 }

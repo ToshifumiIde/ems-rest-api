@@ -1,6 +1,7 @@
 package net.javaguides.springboot.controller;
 
 import lombok.RequiredArgsConstructor;
+import net.javaguides.springboot.dto.DepartmentListDto;
 import net.javaguides.springboot.dto.DepartmentReadDto;
 import net.javaguides.springboot.dto.DepartmentRegistrationDto;
 import net.javaguides.springboot.dto.DepartmentUpdateDto;
@@ -21,7 +22,7 @@ import java.util.List;
 
 
 @CrossOrigin("*")
-@RequestMapping("/api/departments")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
 public class DepartmentController {
@@ -34,7 +35,7 @@ public class DepartmentController {
    * @param departmentRegistrationDto 部署登録用DTO
    * @return void
    */
-  @PostMapping
+  @PostMapping("departments")
   public ResponseEntity<Void> create(@RequestBody DepartmentRegistrationDto departmentRegistrationDto) {
     departmentService.createDepartment(departmentRegistrationDto);
     return ResponseEntity.ok().build();
@@ -45,7 +46,7 @@ public class DepartmentController {
    *
    * @return List<DepartmentReadDto> 部署取得用DTOのList
    */
-  @GetMapping
+  @GetMapping("departments")
   public ResponseEntity<List<DepartmentReadDto>> getAll() {
     List<DepartmentReadDto> dtos = departmentService.getAllDepartments();
     return new ResponseEntity<>(dtos, HttpStatus.OK);
@@ -57,7 +58,7 @@ public class DepartmentController {
    * @param uuid 部署UUID
    * @return DepartmentReadDto 部署取得用DTO
    */
-  @GetMapping("{uuid}")
+  @GetMapping("departments/{uuid}")
   public ResponseEntity<DepartmentReadDto> getByUuid(@PathVariable("uuid") String uuid) {
     DepartmentReadDto dto = departmentService.getDepartmentByUuid(uuid);
     return new ResponseEntity<>(dto, HttpStatus.OK);
@@ -70,7 +71,7 @@ public class DepartmentController {
    * @param departmentUpdateDto 部署更新用DTO
    * @return void
    */
-  @PutMapping("{uuid}")
+  @PutMapping("departments/{uuid}")
   public ResponseEntity<Void> updateByUuid(@PathVariable("uuid") String uuid, @RequestBody DepartmentUpdateDto departmentUpdateDto) {
     departmentService.updateDepartmentByUuid(uuid, departmentUpdateDto);
     return ResponseEntity.ok().build();
@@ -82,9 +83,20 @@ public class DepartmentController {
    * @param uuid 部署UUID
    * @return void
    */
-  @DeleteMapping("{uuid}")
+  @DeleteMapping("departments/{uuid}")
   public ResponseEntity<Void> deleteByUuid(@PathVariable("uuid") String uuid) {
     departmentService.deleteDepartmentByUuid(uuid);
     return ResponseEntity.ok().build();
   }
+
+  /**
+   * 動的セレクトボックス用の部署一覧を取得する REST API
+   *
+   * @return List<DepartmentListDto> セレクトボックス用の部署Dto
+   */
+  @GetMapping("departments:list")
+  public ResponseEntity<List<DepartmentListDto>> getDepartmentsList() {
+    return new ResponseEntity<>(departmentService.getDepartmentsList(), HttpStatus.OK);
+  }
+
 }
